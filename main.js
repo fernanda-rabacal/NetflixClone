@@ -3,10 +3,10 @@ const BASE_URL = 'https://api.themoviedb.org/3/';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const language = 'language=pt-BR'; */
 
-import { API_KEY } from "./api";
-import { BASE_URL } from "./api";
-import { IMG_URL } from "./api";
-import { language } from "./api";
+import { API_KEY } from "./api.js";
+import { BASE_URL } from "./api.js";
+import { IMG_URL } from "./api.js";
+import { language } from "./api.js";
 
 let home = document.querySelector("#home")
 let popularCarousel = document.querySelector(".popular")
