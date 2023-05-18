@@ -14,18 +14,38 @@
 
 body {
   background: #000;
-  padding-left: 2rem;
   min-height: 100vh;
   color: var(--title)
 }
 
-header {
+#navigation {
   color: #fff;
+  padding: 0.3rem 3rem;
+  width: 100%;
+  height: 7rem;
+  position: fixed;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.3rem 2rem;
-  height: 7rem;
+}
+
+#navigation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(31, 31, 31, 1) 100%); 
+  opacity: 0;
+  transition: 0.5s
+}
+
+#navigation.scroll::before {
+  opacity: 1;
 }
 
 a {
@@ -40,7 +60,7 @@ a:hover {
 }
 
 main {
- padding-left: 5rem
+  padding-left: 5rem;
 }
 
 .categories-logo-container img {
@@ -82,33 +102,40 @@ main {
   color: white;
 }
 
-.login:hover + .profile-container,
-.profile-container:hover {
-  display: block;
-}
 
 #profile_caret {
-  transition: 0.2s;
+  transition: 0.4s;
   width: 1.6rem;
 }
 
-#profile_caret:hover, 
-.login:hover #profile_caret {
-  transform: rotate(90deg)
+.profile-container:hover #profile_caret {
+  transform: rotate(270deg)
 }
 
-.profile-container {
+.profile-container:hover .profile-content {
+  display: block;
+}
+
+.profile-content {
+  font-size: 1.2rem;
+  background: #000000e0;
+  width: 20rem;
   position: absolute;
   top: 5rem;
   right: 2rem;
-  width: 20rem;
-  background: #000000c5;
-  font-size: 1.2rem;
+  z-index: 1000;
   display: none;
-  z-index: 2
 }
 
-.profile-container a {
+.profile-content .profiles {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  
+}
+
+.profile-content a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,16 +143,9 @@ main {
   padding: 1rem;
 }
 
-.profile-content {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
 
-.profile-content div {
+.profiles div {
   display: flex;
-  align-items: center;
   gap: 1.6rem;
 }
 
@@ -142,6 +162,7 @@ main {
   display: flex;
   gap: 10rem;
   position: relative;
+  margin-top: 7rem
 }
 
 #home .poster-container {
@@ -149,7 +170,7 @@ main {
   height: 110%;
   position: absolute;
   z-index: 1;
-  background: rgb(0,0,0);
+  background:  #1d1d1d;
   background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,1) 41%, rgba(0,0,0,1) 46%, rgba(0,0,0,0) 57%, rgba(0,0,0,0) 76%, rgba(0,0,0,0) 100%),
   linear-gradient(360deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 100%),
   linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 100%);
@@ -190,7 +211,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
 }
 
 .carousel_container {
@@ -228,7 +249,6 @@ main {
   scroll-behavior: smooth;
 }
 
-
 .carousel::-webkit-scrollbar {
   display: none;
 }
@@ -238,28 +258,36 @@ main {
   cursor: pointer;
 }
 
-
-
-
-
-/* .loader {
-  width: 45px;
-  height: 40px;
-  background: linear-gradient(#0000 calc(1*100%/6),#fff 0 calc(3*100%/6),#0000 0),
-            linear-gradient(#0000 calc(2*100%/6),#fff 0 calc(4*100%/6),#0000 0),
-            linear-gradient(#0000 calc(3*100%/6),#fff 0 calc(5*100%/6),#0000 0);
-  background-size: 10px 400%;
-  background-repeat: no-repeat;
-  animation: matrix 1s infinite linear;
+.informations-modal {
+  display: none;
 }
 
-@keyframes matrix {
-  0% {
-    background-position: 0% 100%, 50% 100%, 100% 100%
-  }
-
-  100% {
-    background-position: 0% 0%, 50% 0%, 100% 0%
-  }
+footer, footer div {
+  display: flex;
+  gap: 2rem;
 }
-  */   
+
+footer  {
+  flex-direction: column;
+  padding-inline: 20rem;
+}
+
+footer section {
+  display: flex;
+  gap: 10rem
+}
+
+footer section div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+footer a, footer p {
+  color: #a1a1a1
+}
+
+footer p {
+  text-align: center;
+  padding-block: 2rem;
+}

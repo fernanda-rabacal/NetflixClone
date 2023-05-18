@@ -3,6 +3,9 @@ const BASE_URL = 'https://api.themoviedb.org/3/';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const language = 'language=pt-BR';
 
+window.addEventListener('scroll', showNavOnScroll)
+document.addEventListener("mouseup", hideSearch);
+
 let home = document.querySelector("#home")
 let popularCarousel = document.querySelector(".popular")
 let movieContainer = document.querySelector(".movie")
@@ -10,8 +13,6 @@ let searchContainer = document.querySelector(".search-container")
 let searchInput = document.querySelector("#search")
 let moviesIds = []
 let tvSeriesIds = []
-
-document.addEventListener("mouseup", hideSearch);
 
 async function getMovies(params) {
   console.log(params)
@@ -33,12 +34,12 @@ async function getMovies(params) {
   }
 }
 
-async function getTvSeries() {
+async function getTvSeries(params) {
   try {
     let data = []
 
     for(let i = 1; i < 4; i++) {
-      let response = await fetch(`${BASE_URL}tv/popular?${API_KEY}&${language}&page=${i}`, {cors: "no-cors"})
+      let response = await fetch(`${BASE_URL}tv/${params}?${API_KEY}&${language}&page=${i}`, {cors: "no-cors"})
       response = await response.json()
       data.push(...response.results) 
       
@@ -116,7 +117,14 @@ async function getCarousel(params, is_tv = false) {
   let list = is_tv ? await getTvSeries(params): await getMovies(params)
 
   for(let item of list) {
-    document.querySelector(`.${is_tv ? params + "_tv" : params}`).innerHTML += `<img src=${IMG_URL + item.poster_path} onclick=${is_tv ? `getMovie(${item.id})` : `getTvSerie(${item.id})`} />`
+    document.querySelector(`.${is_tv ? params + "_tv" : params}`).innerHTML += `<img src=${IMG_URL + item.poster_path} />
+      <div class="informations-modal">
+        <img src=${IMG_URL + item.backdrop_path} alt="${is_tv ? item.name : item.title}"/>
+        <div>
+          
+        </div>
+      </div>
+    `
   }
 }
   
@@ -141,6 +149,7 @@ function hideCarouselRightButton(carousel) {
     return;
   }
 
+
   carousel.previousElementSibling.style.display = "block"
 }
 
@@ -156,8 +165,19 @@ function hideSearch(e) {
     }
 }
 
-async function callFunctions() {
-  await getTvSeries()
+function showNavOnScroll() {
+  let navigation = document.querySelector("#navigation")
+
+  if (scrollY > 0){
+    navigation.classList.add('scroll')
+  } else {
+    navigation.classList.remove('scroll')
+  }
+
+}
+
+
+async function callApiFunctions() {
   await getCarousel("popular")
   await getCarousel("top_rated")
   await getCarousel("upcoming")
@@ -166,4 +186,4 @@ async function callFunctions() {
   await getRandomPoster()
 }
 
-callFunctions()
+callApiFunctions()
