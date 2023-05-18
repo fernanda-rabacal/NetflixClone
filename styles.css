@@ -269,7 +269,7 @@ footer, footer div {
 
 footer  {
   flex-direction: column;
-  padding-inline: 20rem;
+  padding: 4rem 20rem;
 }
 
 footer section {
@@ -284,10 +284,5 @@ footer section div {
 }
 
 footer a, footer p {
-  color: #a1a1a1
-}
-
-footer p {
-  text-align: center;
-  padding-block: 2rem;
+  color: #808080
 }
