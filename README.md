@@ -1,7 +1,7 @@
 # Netflix clone
 
 
-Este é um clone da netflix feito com HTMTL, CSS e Javascrip puro, consumindo a API TMDB, para treinamento de consumo de API em JS em aulas ministradas por mim. 
+Este é um clone da netflix feito com HTMTL, CSS e Javascript puro, consumindo a API TMDB, para treinamento de consumo de API em JS em aulas ministradas por mim. Ele possui o header com hiperlinks, input de pesquisa e container de perfis, porem não são funcionais. Os carroseis de filmes e series são funcionais.
 
 ### Status: In progress 🚧
 - Criando container de preview do filme mostrado ao passar o mouse no poster do filme
