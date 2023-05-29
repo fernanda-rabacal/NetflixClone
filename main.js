@@ -77,39 +77,26 @@ async function getTvSerie(id) {
 }
 
 async function getRandomPoster() {
-  let random = Math.floor(Math.random() * 30)
-  let movieOrPoster = Math.floor(Math.random() * 5) > 2
+  let random = Math.floor(Math.random() * 30) 
+  let isMovie = Math.floor(Math.random() * 5) > 2 
 
-  let element;
+  let element; 
 
-  if(movieOrPoster) {
-    element = await getMovie(moviesIds[random])
-    
-    home.innerHTML = `
-      <div class="poster-container">
-        <div class="poster-infos">
-          <h4>Filme</h4>
-          <h1>${element.title}</h1>
-          <p>${element.overview}</p>
-        </div>
-      </div>
-      <img src=${IMG_URL + element.backdrop_path} alt="${element.title} poster" />
-    `
+  if(isMovie) { 
+    element = await getMovie(moviesIds[random]) 
+  } else {
+    element = await getTvSerie(tvSeriesIds[random]) 
+  }
 
-    return;
-  } 
-
-  element = await getTvSerie(tvSeriesIds[random]) 
-  
   home.innerHTML = `
-  <div class="poster-container">
-    <div class="poster-infos">
-    <h4>Série</h4>
-      <h1>${element.name}</h1>
-      <p>${element.overview}</p>
+    <div class="poster-container">
+      <div class="poster-infos">
+        <h4>${element.title ? "Filme" : "Série"}</h4>
+        <h1>${ element.title ?? element.name }</h1>
+        <p>${element.overview}</p>
+      </div>
     </div>
-  </div>
-  <img src=${IMG_URL + element.backdrop_path} alt="${element.name} poster" />
+    <img src=${IMG_URL + element.backdrop_path} alt="${element.title ?? element.name} poster" />
   `
 }
 
