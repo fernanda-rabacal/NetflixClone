@@ -15,8 +15,6 @@ let moviesIds = []
 let tvSeriesIds = []
 
 async function getMovies(params) {
-  console.log(params)
-
   try {
     let data = []
 
@@ -77,54 +75,40 @@ async function getTvSerie(id) {
 }
 
 async function getRandomPoster() {
-  let random = Math.floor(Math.random() * 30)
-  let movieOrPoster = Math.floor(Math.random() * 5) > 2
+  const random = Math.floor(Math.random() * 30)
+  const isMovie = Math.floor(Math.random() * 5) > 2
+  const element = isMovie ? await getMovie(moviesIds[random]) : await getTvSerie(tvSeriesIds[random]) ;
 
-  let element;
-
-  if(movieOrPoster) {
-    element = await getMovie(moviesIds[random])
-    
-    home.innerHTML = `
-      <div class="poster-container">
-        <div class="poster-infos">
-          <h4>Filme</h4>
-          <h1>${element.title}</h1>
-          <p>${element.overview}</p>
-        </div>
-      </div>
-      <img src=${IMG_URL + element.backdrop_path} alt="${element.title} poster" />
-    `
-
-    return;
-  } 
-
-  element = await getTvSerie(tvSeriesIds[random]) 
+  const title = isMovie ? element.title : element.name
+  const elementType = isMovie ? "Filme" : 'Série'
   
   home.innerHTML = `
-  <div class="poster-container">
-    <div class="poster-infos">
-    <h4>Série</h4>
-      <h1>${element.name}</h1>
-      <p>${element.overview}</p>
+    <div class="poster-container">
+      <div class="poster-infos">
+        <h4>${elementType}</h4>
+        <h1>${title}</h1>
+        <p>${element.overview}</p>
+      </div>
     </div>
-  </div>
-  <img src=${IMG_URL + element.backdrop_path} alt="${element.name} poster" />
+    <img src=${IMG_URL + element.backdrop_path} alt="${title} poster" />
   `
 }
 
 async function getCarousel(params, is_tv = false) {
-  let list = is_tv ? await getTvSeries(params): await getMovies(params)
+  const list = is_tv ? await getTvSeries(params): await getMovies(params)
+  const className = is_tv ? `.${params + "_tv" }` : `.${params}`
+  const carousel = document.querySelector(className)
 
-  for(let item of list) {
-    document.querySelector(`.${is_tv ? params + "_tv" : params}`).innerHTML += `<img src=${IMG_URL + item.poster_path} />
-      <div class="informations-modal">
-        <img src=${IMG_URL + item.backdrop_path} alt="${is_tv ? item.name : item.title}"/>
-        <div>
-          
+  if(carousel) {
+    for(let item of list) {
+      carousel.innerHTML += `
+        <img src=${IMG_URL + item.poster_path} />
+        <div class="informations-modal">
+          <img src=${IMG_URL + item.backdrop_path} alt="${is_tv ? item.name : item.title}"/>
+          <div></div>
         </div>
-      </div>
-    `
+      `
+    }
   }
 }
   
@@ -148,7 +132,6 @@ function hideCarouselRightButton(carousel) {
     
     return;
   }
-
 
   carousel.previousElementSibling.style.display = "block"
 }
