@@ -95,9 +95,7 @@ async function getRandomPoster() {
 }
 
 async function getCarousel(params, is_tv = false) {
-  const list = is_tv ? await getTvSeries(params): await getMovies(params)
-  const className = is_tv ? `.${params + "_tv" }` : `.${params}`
-  const carousel = document.querySelector(className)
+  let list = is_tv ? await getTvSeries(params): await getMovies(params)
 
   if(carousel) {
     for(let item of list) {
