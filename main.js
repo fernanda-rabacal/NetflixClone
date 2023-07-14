@@ -96,6 +96,7 @@ async function getRandomPoster() {
 
 async function getCarousel(params, is_tv = false) {
   let list = is_tv ? await getTvSeries(params): await getMovies(params)
+  let carousel = document.querySelector(`.{params}`)
 
   if(carousel) {
     for(let item of list) {
